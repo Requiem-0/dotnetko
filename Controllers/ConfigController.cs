@@ -1,4 +1,6 @@
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace ConfigSetting;
 
@@ -9,9 +11,15 @@ public class ConfigController: ControllerBase
     // Inject Iconfiguration  via constructors
 
     private IConfiguration _config;
-    public ConfigController(IConfiguration config)
+
+    //Inject IOptions via constructor
+    private readonly IOptions<MapApiOptions> _options;
+
+    public ConfigController(IConfiguration config, IOptions<MapApiOptions> options)
     {
         _config =config;
+        _options= options;
+
     }
 
     //Endpoint : read using  IConfiguration
@@ -33,5 +41,24 @@ public class ConfigController: ControllerBase
                 
             }
         );
+        
+    }
+    [HttpGet("options")]
+    //Endpoint: read using IOptions
+        public IActionResult GetviaIOptions()
+    {
+        MapApiOptions info = _options.Value;
+
+        return Ok(
+                new
+                {
+                    Source = "IOptions",
+                    info.ApiKey,
+                    info.BaseUrl,
+                    info.TimeoutSeconds
+                }
+            );
+
+
     }
 }

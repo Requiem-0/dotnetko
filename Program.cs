@@ -1,4 +1,11 @@
+using ConfigSetting;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//Register options
+builder.Services.Configure<MapApiOptions>(
+    builder.Configuration.GetSection("MapApiSetting")
+);
 
 // Add services
 builder.Services.AddControllers();
