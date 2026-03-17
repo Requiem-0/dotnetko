@@ -7,6 +7,11 @@ builder.Services.Configure<MapApiOptions>(
     builder.Configuration.GetSection("MapApiSetting")
 );
 
+// Register Options Pattern
+builder.Services.Configure<MyInfoOptions>(
+    builder.Configuration.GetSection("MyInfo")
+);
+
 // Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
